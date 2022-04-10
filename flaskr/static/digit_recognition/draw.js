@@ -73,6 +73,7 @@ predict = () => {
     // send post request to server
     url = window.location.href;
     url = url.replace(/\/+$/, '');
+    url = url.split("?")[0];
     predict_url = url + "/predict"
     fetch(predict_url, {
         method: "POST",
