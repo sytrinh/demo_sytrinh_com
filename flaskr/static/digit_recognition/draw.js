@@ -92,9 +92,5 @@ button_clear.addEventListener("click", reset);
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mousedown", () => { paint = true; });
 canvas.addEventListener("mouseup", () => { paint = false; });
-
-canvas.addEventListener("touchmove", draw);
-canvas.addEventListener("touchstart", () => { paint = true; });
-canvas.addEventListener("touchend", () => { paint = false; });
 button_predict.addEventListener("click", predict);
 // canvas.addEventListener("mouseup", predict);
