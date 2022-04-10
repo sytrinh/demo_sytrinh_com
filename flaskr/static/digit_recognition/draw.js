@@ -71,9 +71,8 @@ predict = () => {
     const data = { image: canvas.toDataURL() };
 
     // send post request to server
-    url = window.location.href;
+    url = window.location.href.split('?')[0];
     url = url.replace(/\/+$/, '');
-    url = url.split("?")[0];
     predict_url = url + "/predict"
     fetch(predict_url, {
         method: "POST",
