@@ -71,19 +71,21 @@ predict = () => {
     const data = { image: canvas.toDataURL() };
 
     // send post request to server
-    url = window.location.href.split('?')[0];
-    url = url.replace(/\/+$/, '');
-    predict_url = url + "/predict"
+    // url = window.location.href.split('?')[0];
+    // url = url.replace(/\/+$/, '');
+    // predict_url = url + "/predict"
+    predict_url =  parent_url  + "/predict";
+
     fetch(predict_url, {
         method: "POST",
         mode: "cors",
         body: JSON.stringify(data)
     })
         .then(res => res.json())
-        .then(data => {
-            label.innerText = data.label;
-            if (data.label_size == 1) {label.style.fontSize = "40px"} else {label.style.fontSize = "200px"};
-            confidence.innerText = `confidence : ${data.confidence}`;
+        .then(res_data => {
+            label.innerText = res_data.label;
+            if (res_data.label_size == 1) {label.style.fontSize = "40px"} else {label.style.fontSize = "200px"};
+            confidence.innerText = `confidence : ${res_data.confidence}`;
         });
 }
 

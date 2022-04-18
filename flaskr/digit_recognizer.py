@@ -17,12 +17,13 @@ ml_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mlmodels/mi
 ml_model = tf.keras.models.load_model(ml_name)
 
 
-@bp.route('/digit_recognizer')
+@bp.route('/digit-recognizer')
 def load():
     data = {
-    'title': 'Digit Recognizer'
+    'title': 'Digit Recognizer',
+    'parent_url': '/digit-recognizer'
     }
-    return render_template('digit_recognition.html', data=data)
+    return render_template('digit-recognition.html', data=data)
 
 
 def preprocess_image(image):
@@ -54,7 +55,7 @@ def preprocess_image(image):
     image = 255 - image
     return image
 
-@bp.route('/digit_recognizer/predict', methods=["POST"])
+@bp.route('/digit-recognizer/predict', methods=["POST"])
 def predict():
     data = request.get_json(force=True)
     encoded = data["image"]

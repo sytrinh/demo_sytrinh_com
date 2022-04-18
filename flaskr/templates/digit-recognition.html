@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-12">
+  <div class="title">
+    <h2>Handwritten digit recognition</h2>
+  </div>
+  <div class="content">
+    <p>
+      A CNN Model trained on MNIST dataset to recognize handwritten digits. Draw
+      any digit between 0 to 9 on the left canvas and submit.
+    </p>
+    <p><b>Note</b>: The app may not work when opened with phones or tablets.</p>
+    <div class="row clearfix">
+      <div class="col-md-6">
+        <div class="fullcol center">
+          <h3>Draw below</h3>
+        </div>
+        <div class="fullcol center">
+          <canvas id="the_stage">Your browser does not support canvas!</canvas>
+        </div>
+        <div class="fullcol center">
+          <button type="button" class="butt clear">
+            Clear
+          </button>
+          <button type="button" class="butt predict">
+            Submit
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="fullcol center">
+          <h3>Result</h3>
+        </div>
+        <div class="fullcol center">
+          <div class="output">
+            <span class="label">5</span>
+            <span class="confidence">Confidence: 0.99</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var parent_url = '{{ data.parent_url }}'
+</script>
+<script src="{{ url_for('static', filename='digit_recognition/draw.js') }}" type="text/javascript"></script>
+{% endblock content %}
