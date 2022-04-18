@@ -59,3 +59,5 @@ win-inet-pton==1.1.0
 wincertstore==0.2
 wrapt==1.14.0
 zipp==3.8.0
+web3==5.29.0
+beautifulsoup4==4.9.3

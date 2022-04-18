@@ -19,6 +19,9 @@ def create_app(test_config=None):
     from . import digit_recognizer
     app.register_blueprint(digit_recognizer.bp)
 
+    from . import pancake_token_info
+    app.register_blueprint(pancake_token_info.bp)
+
     # a simple page that says hello
     @app.route('/')
     def index():

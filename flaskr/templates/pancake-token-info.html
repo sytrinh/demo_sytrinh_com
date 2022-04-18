@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-12">
+  <div class="title">
+    <h2>Pancakeswap token information scraper</h2>
+  </div>
+  <div class="content">
+    This app is designed to scrape the information of a token listed on <a target="_blank" href="https://pancakeswap.finance/info">Pancakeswap</a>.
+    The token information is obtained directly from the blockchan (Binance Smart Chain) and the price from Pancakeswap.
+    Details about the code can be seen <a target="_blank" href="https://github.com/sytrinh/pancakeswap_price_scraper">here</a>.
+    <p> <b>Submit a token address to get information: </b></p>
+    <div class="input-group" style="margin:20px 0 20px 0">
+      <input type="text" class="form-control rounded" placeholder="0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"  id="tokenAddress", name="tokenAddress" />
+      <button type="button" class="btn btn-outline-primary" id="myButton" name="button" onclick="sendDataToBacked()">Submit</button>
+    </div>
+
+    <p class="loading"></p>
+
+    <table class="table" style='display: none;'>
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Scrape time</th>
+          <td class='scrape_time'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Token address</th>
+          <td class='token_address'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Token name</th>
+          <td class='token_name'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Token symbol</th>
+          <td class='token_symbol'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Decimal</th>
+          <td class='token_decimal'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Supply</th>
+          <td class='token_supply'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Number of holders</th>
+          <td class='token_holders'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Number of transactions</th>
+          <td class='token_transactions'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Token price in BNB</th>
+          <td class='token_price_bnb'>N/A</td>
+        </tr>
+        <tr>
+          <th scope="row">Token price in USD</th>
+          <td class='token_price_usd'>N/A</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+function sendDataToBacked() {
+  const loading = document.querySelector(".loading");
+  const scrape_time = document.querySelector(".scrape_time");
+  const token_address = document.querySelector(".token_address");
+  const token_name = document.querySelector(".token_name");
+  const token_symbol = document.querySelector(".token_symbol");
+  const token_decimal = document.querySelector(".token_decimal");
+  const token_supply = document.querySelector(".token_supply");
+  const token_holders = document.querySelector(".token_holders");
+  const token_transactions = document.querySelector(".token_transactions");
+  const token_price_bnb = document.querySelector(".token_price_bnb");
+  const token_price_usd = document.querySelector(".token_price_usd");
+
+  var table = document.querySelector(".table");
+
+  var submit_address = tokenAddress.value;
+  if (submit_address == undefined || submit_address === null || submit_address == '') {
+        submit_address = '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82';
+      }
+  var submit_data = {"token_address": submit_address};
+
+  // url = window.location.href.split('?')[0];
+  // url = url.replace(/\/+$/, '');
+  // predict_url = url + "/scrape";
+  scrape_url =  "{{ data.parent_url }}" + "/scrape";
+
+  table.style.display = "none";
+  loading.innerText = 'App is running. Please wait ...';
+  loading.style.color = 'black'
+
+  fetch(scrape_url, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(submit_data)
+  })
+      .then(res => res.json())
+      .then(res_data => {
+        if ( res_data == null || res_data == undefined) {
+          loading.innerText = 'Failed to scrape token information. Please make sure the token address is correct and it is listed on Pancakeswap';
+          loading.style.color = 'red'
+        } else {
+          loading.innerText = ""
+          table.style.display = "block";
+          scrape_time.innerText = res_data.time;
+          token_address.innerText = res_data.address;
+          token_name.innerText = res_data.name;
+          token_symbol.innerText = res_data.symbol;
+          token_decimal.innerText = res_data.decimal;
+          token_supply.innerText = res_data.supply;
+          token_holders.innerText = res_data.num_holders;
+          token_transactions.innerText = res_data.num_transactions;
+          token_price_bnb.innerText = res_data.price_bnb;
+          token_price_usd.innerText = res_data.price_usd;
+        }
+      });
+    }
+</script>
+{% endblock content %}
