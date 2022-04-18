@@ -146,7 +146,9 @@ def scrape():
         data = request.get_json(force=True)
         token_address = data['token_address']
         tokeninfo = TokenScrape().getTokenInfo(token_address)
-        tokeninfo['time'] = datetime.fromtimestamp(tokeninfo['time_unix']).strftime('%Y-%m-%d %H:%M:%S')
+        local_timezone = datetime.utcnow().astimezone().tzinfo
+        local_time = datetime.fromtimestamp(tokeninfo['time_unix']).strftime('%Y-%m-%d %H:%M:%S')
+        tokeninfo['time'] = str(local_time) + ' ' + str(local_timezone)
     except Exception as e:
         tokeninfo = None
         # tokeninfo = {
